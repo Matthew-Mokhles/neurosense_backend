@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# IDE / tools
+.claude/
+scratch/
+
+# Logs
+*.log
+
+# Large model weights (use Git LFS or external storage)
+checkpoints/
+saved_models_v2/
+
+# Local test media
+*.MP4
+*.mp4
+photo_*.jpg

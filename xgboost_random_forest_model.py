@@ -20,6 +20,51 @@ import xgboost as xgb
 import warnings
 warnings.filterwarnings('ignore')
 
+
+def _patch_numpy2_pickle_compat():
+    """Map numpy._core so NumPy 1.x can load pickles saved with NumPy 2.x."""
+    import sys
+    if 'numpy._core' in sys.modules:
+        return
+    if hasattr(np, '_core'):
+        return
+    core = np.core
+    sys.modules['numpy._core'] = core
+    sys.modules['numpy._core.multiarray'] = core.multiarray
+    sys.modules['numpy._core.umath'] = core.umath
+
+
+def _patch_xgb_sklearn_compat(estimator):
+    """Backfill attrs removed in newer XGBoost pickles for older xgboost sklearn wrappers."""
+    try:
+        import xgboost as xgb
+    except ImportError:
+        return
+
+    from inspect import signature
+
+    try:
+        needs_label_encoder = 'use_label_encoder' in signature(xgb.XGBClassifier.__init__).parameters
+    except (TypeError, ValueError):
+        needs_label_encoder = False
+
+    if not needs_label_encoder:
+        return
+
+    def _fix(model):
+        if isinstance(model, xgb.XGBClassifier):
+            if not hasattr(model, 'use_label_encoder'):
+                model.use_label_encoder = False
+
+    _fix(estimator)
+    if hasattr(estimator, 'estimators'):
+        for _, est in estimator.estimators:
+            _fix(est)
+    if hasattr(estimator, 'estimators_'):
+        for est in estimator.estimators_:
+            _fix(est)
+
+
 class XGBoostRandomForestModel:
     """
     XGBoost + Random Forest Enhanced Autism Screening Model
@@ -611,6 +656,7 @@ class XGBoostRandomForestModel:
         Args:
             filepath (str): Path to the saved model
         """
+        _patch_numpy2_pickle_compat()
         model_data = joblib.load(filepath)
         
         self.xgb_model = model_data['xgb_model']
@@ -625,6 +671,11 @@ class XGBoostRandomForestModel:
         self.random_state = model_data['random_state']
         self.performance_history = model_data.get('performance_history', [])
         self.is_trained = True
+
+        if self.xgb_model is not None:
+            _patch_xgb_sklearn_compat(self.xgb_model)
+        if self.ensemble_model is not None:
+            _patch_xgb_sklearn_compat(self.ensemble_model)
         
         print(f"XGBoost + Random Forest model loaded from: {filepath}")
 

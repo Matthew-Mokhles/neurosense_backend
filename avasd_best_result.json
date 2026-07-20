@@ -1,0 +1,41 @@
+{
+  "best_strategy": "Eye Contact=0.079 (from sweep)",
+  "best_test_f1": 0.5239939920215564,
+  "oracle_f1": 0.5560967818792019,
+  "gap_to_paper": 0.007706007978443563,
+  "w_v19": 0.4,
+  "eye_contact_t": 0.14620689655172414,
+  "all_results": {
+    "Baseline (median thresh)": 0.5164122926751511,
+    "Eye Contact=0.146 (low-range val-opt)": 0.5178937741566326,
+    "Eye Contact=0.079 (from sweep)": 0.5239939920215564,
+    "ORACLE ceiling": 0.5560967818792019,
+    "v18_trainval + Eye (prev best)": 0.5183,
+    "Best non-LLM (paper)": 0.5317,
+    "LLaVA-ASD 13B": 0.5977
+  },
+  "thresholds": {
+    "Absence or Avoidance of Eye Contact": 0.14620690047740936,
+    "Aggressive Behavior": 0.3632911443710327,
+    "Hyper- or Hyporeactivity to Sensory Input": 0.45822784304618835,
+    "Non-Responsiveness to Verbal Interaction": 0.4392405152320862,
+    "Non-Typical Language": 0.4962025284767151,
+    "Object Lining-Up": 0.4867088496685028,
+    "Self-Hitting or Self-Injurious Behavior": 0.41075947880744934,
+    "Self-Spinning or Spinning Objects": 0.7620252966880798,
+    "Upper Limb Stereotypies": 0.35379746556282043,
+    "Background": 0.3063291013240814
+  },
+  "per_label_f1": {
+    "Absence or Avoidance of Eye Contact": 0.37037037037037035,
+    "Aggressive Behavior": 0.7213114754098361,
+    "Hyper- or Hyporeactivity to Sensory Input": 0.35,
+    "Non-Responsiveness to Verbal Interaction": 0.3050847457627119,
+    "Non-Typical Language": 0.4166666666666667,
+    "Object Lining-Up": 0.7777777777777778,
+    "Self-Hitting or Self-Injurious Behavior": 0.358974358974359,
+    "Self-Spinning or Spinning Objects": 0.4186046511627907,
+    "Upper Limb Stereotypies": 0.6722689075630253,
+    "Background": 0.7878787878787878
+  }
+}

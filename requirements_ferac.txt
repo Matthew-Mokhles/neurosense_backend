@@ -1,0 +1,16 @@
+# Additional dependencies for the FERAC real-time inference pipeline
+# (on top of the existing training requirements.txt — torch/torchvision/timm
+# are already covered there and reused as-is, NOT duplicated here).
+
+opencv-python>=4.8.0
+mediapipe>=0.10.30
+onnxruntime>=1.16.0          # for export.py verification and ONNX-based deployment testing
+
+# Server (server.py) — for the Flutter mobile app's server-based integration
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+python-multipart>=0.0.9       # required by FastAPI for UploadFile/File(...) form parsing
+
+# Already in requirements.txt, listed here only for clarity on what
+# inference/ depends on:
+#   torch, torchvision, timm, numpy
